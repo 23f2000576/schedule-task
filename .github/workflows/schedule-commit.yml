@@ -12,17 +12,15 @@ jobs:
   commit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Update timestamp file
+      - name: Update timestamp
+        run: echo "Last updated: $(date)" >> status.txt
+
+      - name: Commit with IITM email
         run: |
-          echo "Last updated: $(date)" >> status.txt
-
-      - name: Commit changes
-      run: |
-        git config --global user.name "23f2000576"
-        git config --global user.email "23f2000576@ds.study.iitm.ac.in"
-        git add status.txt
-        git commit -m "Daily update" || echo "Nothing to commit"
-        git push
+          git config --global user.name "23f2000576"
+          git config --global user.email "23f2000576@ds.study.iitm.ac.in"
+          git add status.txt
+          git commit -m "Daily update by 23f2000576" || echo "Nothing to commit"
+          git push
