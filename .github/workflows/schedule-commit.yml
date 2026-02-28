@@ -11,13 +11,16 @@ permissions:
 jobs:
   commit:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Update timestamp
-        run: echo "Last updated: $(date)" >> status.txt
+        run: |
+          echo "Last updated: $(date)" >> status.txt
 
-      - name: Commit with IITM email
+      - name: Commit changes
         run: |
           git config --global user.name "23f2000576"
           git config --global user.email "23f2000576@ds.study.iitm.ac.in"
