@@ -15,15 +15,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
-      - name: Update timestamp
-        run: |
-          echo "Last updated: $(date)" >> status.txt
-
-      - name: Commit changes
+      - name: Configure Git with IITM email
         run: |
           git config --global user.name "23f2000576"
           git config --global user.email "23f2000576@ds.study.iitm.ac.in"
+
+      - name: Make a change (always)
+        run: |
+          echo "Last updated: $(date)" > status.txt
+
+      - name: Commit and push
+        run: |
           git add status.txt
-          git commit -m "Daily update by 23f2000576" || echo "Nothing to commit"
+          git commit -m "Daily update by 23f2000576@ds.study.iitm.ac.in"
           git push
