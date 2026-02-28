@@ -2,8 +2,8 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: '0 10 * * *'
-  workflow_dispatch:
+    - cron: '0 10 * * *'   # Runs once daily at 10:00 UTC
+  workflow_dispatch:       # Allows manual run for testing
 
 permissions:
   contents: write
@@ -15,20 +15,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          persist-credentials: true
 
-      - name: Configure Git with IITM email
+      # REQUIRED: Step name must contain your IITM email
+      - name: Update daily log for 23f2000576@ds.study.iitm.ac.in
+        run: |
+          echo "Last updated: $(date)" > status.txt
+
+      - name: Configure Git
         run: |
           git config --global user.name "23f2000576"
           git config --global user.email "23f2000576@ds.study.iitm.ac.in"
 
-      - name: Make a change (always)
-        run: |
-          echo "Last updated: $(date)" > status.txt
-
-      - name: Commit and push
+      - name: Commit and push changes
         run: |
           git add status.txt
-          git commit -m "Daily update by 23f2000576@ds.study.iitm.ac.in"
+          git commit -m "Daily update by 23f2000576" || echo "No changes"
           git push
